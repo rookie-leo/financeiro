@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sis_financeiro
+    username: root
+    password: ${USER_PASSWORD}
+
+server:
+  port: 8081
