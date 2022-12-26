@@ -52,12 +52,12 @@ public class Receita {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Receita receita = (Receita) o;
-        return Objects.equals(id, receita.id) && Objects.equals(descricao, receita.descricao) && Objects.equals(valor, receita.valor) && Objects.equals(data, receita.data);
+        return descricao.equals(receita.descricao) && data.equals(receita.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao, valor, data);
+        return Objects.hash(descricao, data);
     }
 
     @Override

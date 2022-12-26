@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.util.stream.Stream;
 
 @Service
 public class ReceitaService {
@@ -17,8 +18,22 @@ public class ReceitaService {
 
     public ReceitaResponse cadastrar(ReceitaRequest request) {
         Receita receita = request.toModel();
+        verificaDuplicidade(receita);
+
         repository.save(receita);
 
         return new ReceitaResponse(receita);
+    }
+
+    private void verificaDuplicidade(Receita receita) {
+        var isEncontrado = repository.findAll()
+                .stream()
+                .anyMatch(r ->
+                        r.equals(receita)
+                );
+
+        if (isEncontrado) {
+            throw new RuntimeException("Receita já cadastrada!");
+        }
     }
 }
