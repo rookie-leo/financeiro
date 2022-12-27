@@ -65,6 +65,7 @@ public class ReceitaService {
         receita.setValor(request.getValor());
         receita.setDescricao(request.getDescricao());
         receita.setData(LocalDateTime.now());
+        verificaDuplicidade(receita);
 
         repository.save(receita);
 
