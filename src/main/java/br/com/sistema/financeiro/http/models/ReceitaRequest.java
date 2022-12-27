@@ -14,9 +14,9 @@ public class ReceitaRequest {
     @NotNull
     private BigDecimal valor;
 
-    public ReceitaRequest(String descricao, String valor) {
+    public ReceitaRequest(String descricao, BigDecimal valor) {
         this.descricao = descricao;
-        this.valor = new BigDecimal(valor);
+        this.valor = valor;
     }
 
     public Receita toModel() {

@@ -8,13 +8,13 @@ public class ReceitaResponse {
 
     private Long id;
     private String descricao;
-    private String valor;
+    private BigDecimal valor;
     private String data;
 
     public ReceitaResponse(Receita receita) {
         this.id = receita.getId();
         this.descricao = receita.getDescricao();
-        this.valor = receita.getValor().toString();
+        this.valor = receita.getValor();
         this.data = receita.getData().toString();
     }
 
@@ -26,7 +26,7 @@ public class ReceitaResponse {
         return descricao;
     }
 
-    public String getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
