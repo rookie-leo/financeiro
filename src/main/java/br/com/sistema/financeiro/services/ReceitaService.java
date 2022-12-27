@@ -7,6 +7,9 @@ import br.com.sistema.financeiro.repositories.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ReceitaService {
 
@@ -27,11 +30,22 @@ public class ReceitaService {
                 .stream()
                 .anyMatch(r ->
                         r.getData().getMonth().equals(receita.getData().getMonth()) &&
-                        r.getDescricao().equals(receita.getDescricao())
+                                r.getDescricao().equals(receita.getDescricao())
                 );
 
         if (isEncontrado) {
             throw new RuntimeException("Receita já cadastrada!");
         }
+    }
+
+    public List<ReceitaResponse> listar() {
+        List<ReceitaResponse> responseList = new ArrayList<>();
+
+        repository.findAll()
+                .forEach(receita -> {
+                    responseList.add(new ReceitaResponse(receita));
+                });
+
+        return responseList;
     }
 }
