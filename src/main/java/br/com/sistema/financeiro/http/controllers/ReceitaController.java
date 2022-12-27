@@ -43,4 +43,9 @@ public class ReceitaController {
         return responseList;
     }
 
+    @GetMapping("/{id}")
+    public ReceitaResponse buscarReceita(@PathVariable Long id) {
+        return service.buscar(id);
+    }
+
 }
