@@ -3,6 +3,7 @@ package br.com.sistema.financeiro.http.controllers;
 import br.com.sistema.financeiro.http.models.ReceitaRequest;
 import br.com.sistema.financeiro.http.models.ReceitaResponse;
 import br.com.sistema.financeiro.services.ReceitaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class ReceitaController {
     private ReceitaService service;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<ReceitaResponse> cadastrar(@RequestBody ReceitaRequest request) {
+    public ResponseEntity<ReceitaResponse> cadastrar(@RequestBody @Valid ReceitaRequest request) {
         if(request == null) {
             return ResponseEntity.badRequest().build();
         }

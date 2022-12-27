@@ -7,9 +7,6 @@ import br.com.sistema.financeiro.repositories.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.util.stream.Stream;
-
 @Service
 public class ReceitaService {
 
@@ -29,7 +26,8 @@ public class ReceitaService {
         var isEncontrado = repository.findAll()
                 .stream()
                 .anyMatch(r ->
-                        r.equals(receita)
+                        r.getData().getMonth().equals(receita.getData().getMonth()) &&
+                        r.getDescricao().equals(receita.getDescricao())
                 );
 
         if (isEncontrado) {
