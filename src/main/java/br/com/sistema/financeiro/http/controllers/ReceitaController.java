@@ -56,4 +56,11 @@ public class ReceitaController {
         return ResponseEntity.accepted().body(response);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarReceita(@PathVariable Long id) {
+        service.deletar(id);
+
+        return ResponseEntity.ok().build();
+    }
+
 }

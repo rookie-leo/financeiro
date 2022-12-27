@@ -5,6 +5,7 @@ import br.com.sistema.financeiro.http.models.ReceitaRequest;
 import br.com.sistema.financeiro.http.models.ReceitaResponse;
 import br.com.sistema.financeiro.repositories.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,5 +69,13 @@ public class ReceitaService {
         repository.save(receita);
 
         return new ReceitaResponse(receita);
+    }
+
+    public void deletar(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new RuntimeException("Id informado não encontrado!");
+        }
     }
 }
