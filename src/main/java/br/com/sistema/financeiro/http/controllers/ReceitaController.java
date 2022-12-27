@@ -48,4 +48,12 @@ public class ReceitaController {
         return service.buscar(id);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ReceitaResponse> atualizarReceita(@PathVariable Long id,
+                                                            @RequestBody @Valid ReceitaRequest request) {
+        ReceitaResponse response = service.atualizar(id, request);
+
+        return ResponseEntity.accepted().body(response);
+    }
+
 }

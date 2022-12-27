@@ -7,6 +7,7 @@ import br.com.sistema.financeiro.repositories.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,5 +54,19 @@ public class ReceitaService {
         return new ReceitaResponse(repository.findById(id).orElseThrow(() ->
                 new RuntimeException("Id não encontrado!")
         ));
+    }
+
+    public ReceitaResponse atualizar(Long id, ReceitaRequest request) {
+        Receita receita = repository.findById(id).orElseThrow(() ->
+                new RuntimeException("Id não encontrado!")
+        );
+
+        receita.setValor(request.getValor());
+        receita.setDescricao(request.getDescricao());
+        receita.setData(LocalDateTime.now());
+
+        repository.save(receita);
+
+        return new ReceitaResponse(receita);
     }
 }

@@ -19,6 +19,14 @@ public class ReceitaRequest {
         this.valor = valor;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
     public Receita toModel() {
         return new Receita(this.descricao, this.valor);
     }

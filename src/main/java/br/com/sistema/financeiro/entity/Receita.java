@@ -43,6 +43,18 @@ public class Receita {
         return valor;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
     public LocalDateTime getData() {
         return data;
     }
