@@ -19,20 +19,20 @@ public class ReceitaService {
     private ReceitaRepository repository;
 
     public ReceitaResponse cadastrar(ReceitaRequest request) {
+        verificaDuplicidade(request);
         Receita receita = request.toModel();
-        verificaDuplicidade(receita);
 
         repository.save(receita);
 
         return new ReceitaResponse(receita);
     }
 
-    private void verificaDuplicidade(Receita receita) {
+    private void verificaDuplicidade(ReceitaRequest request) {
         var isEncontrado = repository.findAll()
                 .stream()
-                .anyMatch(r ->
-                        r.getData().getMonth().equals(receita.getData().getMonth()) &&
-                                r.getDescricao().equals(receita.getDescricao())
+                .anyMatch(receita ->
+                        receita.getData().getMonth().equals(LocalDateTime.now().getMonth()) &&
+                                receita.getDescricao().equals(request.getDescricao())
                 );
 
         if (isEncontrado) {
@@ -58,6 +58,7 @@ public class ReceitaService {
     }
 
     public ReceitaResponse atualizar(Long id, ReceitaRequest request) {
+        verificaDuplicidade(request);
         Receita receita = repository.findById(id).orElseThrow(() ->
                 new RuntimeException("Id não encontrado!")
         );
@@ -65,7 +66,6 @@ public class ReceitaService {
         receita.setValor(request.getValor());
         receita.setDescricao(request.getDescricao());
         receita.setData(LocalDateTime.now());
-        verificaDuplicidade(receita);
 
         repository.save(receita);
 
