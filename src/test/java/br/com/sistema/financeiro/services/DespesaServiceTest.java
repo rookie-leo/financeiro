@@ -1,6 +1,7 @@
 package br.com.sistema.financeiro.services;
 
 import br.com.sistema.financeiro.entity.Despesa;
+import br.com.sistema.financeiro.entity.enums.Categoria;
 import br.com.sistema.financeiro.http.models.DespesaRequest;
 import br.com.sistema.financeiro.repositories.DespesaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,6 @@ class DespesaServiceTest {
     }
 
     private DespesaRequest requestBuilder() {
-        return new DespesaRequest("Descrição teste", new BigDecimal(50.0));
+        return new DespesaRequest("Descrição teste", new BigDecimal(50.0), "outros");
     }
 }

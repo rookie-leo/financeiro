@@ -1,5 +1,6 @@
 package br.com.sistema.financeiro.entity;
 
+import br.com.sistema.financeiro.entity.enums.Categoria;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -22,12 +23,16 @@ public class Despesa {
     @Column(nullable = false, name = "data_entrada")
     private LocalDateTime data = LocalDateTime.now();
 
+    @Column
+    private String categoria;
+
     @Deprecated
     public Despesa() {}
 
-    public Despesa(String descricao, BigDecimal valor) {
+    public Despesa(String descricao, BigDecimal valor, Categoria categoria) {
         this.descricao = descricao;
         this.valor = valor;
+        this.categoria = categoria.toString();
     }
 
     public Long getId() {
@@ -40,6 +45,14 @@ public class Despesa {
 
     public BigDecimal getValor() {
         return valor;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria.toString();
     }
 
     public void setDescricao(String descricao) {

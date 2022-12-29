@@ -1,6 +1,7 @@
 package br.com.sistema.financeiro.http.models;
 
 import br.com.sistema.financeiro.entity.Despesa;
+import br.com.sistema.financeiro.entity.enums.Categoria;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,9 +15,12 @@ public class DespesaRequest {
     @NotNull
     private BigDecimal valor;
 
-    public DespesaRequest(String descricao, BigDecimal valor) {
+    private Categoria categoria;
+
+    public DespesaRequest(String descricao, BigDecimal valor, String categoria) {
         this.descricao = descricao;
         this.valor = valor;
+        this.categoria = Categoria.toCategoria(categoria);
     }
 
     public String getDescricao() {
@@ -27,8 +31,12 @@ public class DespesaRequest {
         return valor;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
     public Despesa toModel() {
-        return new Despesa(this.descricao, this.valor);
+        return new Despesa(this.descricao, this.valor, this.categoria);
     }
 
 }
