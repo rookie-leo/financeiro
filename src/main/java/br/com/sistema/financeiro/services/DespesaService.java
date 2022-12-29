@@ -15,8 +15,12 @@ import java.util.List;
 @Service
 public class DespesaService {
 
-    @Autowired
     private DespesaRepository repository;
+
+    @Autowired
+    public DespesaService(DespesaRepository repository) {
+        this.repository = repository;
+    }
 
     public DespesaResponse cadastrar(DespesaRequest request) {
         verificaDuplicidade(request);
