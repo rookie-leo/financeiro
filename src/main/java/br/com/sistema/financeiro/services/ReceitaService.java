@@ -51,6 +51,17 @@ public class ReceitaService {
         return responseList;
     }
 
+    public List<ReceitaResponse> buscarPorDescricao(String descricao) {
+        List<ReceitaResponse> responseList = new ArrayList<>();
+
+        repository.findByDescricao(descricao)
+                .forEach(receita -> {
+                    responseList.add(new ReceitaResponse(receita));
+                });
+
+        return responseList;
+    }
+
     public ReceitaResponse buscar(Long id) {
         return new ReceitaResponse(repository.findById(id).orElseThrow(() ->
                 new RuntimeException("Id não encontrado!")

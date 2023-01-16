@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,10 +38,12 @@ public class ReceitaController {
     }
 
     @GetMapping()
-    public List<ReceitaResponse> listar() {
-        List<ReceitaResponse> responseList = service.listar();
+    public List<ReceitaResponse> listar(@RequestParam(value="descricao", required = false)String descricao) {
+        if (descricao == null) {
+            return service.listar();
+        }
 
-        return responseList;
+        return service.buscarPorDescricao(descricao);
     }
 
     @GetMapping("/{id}")
