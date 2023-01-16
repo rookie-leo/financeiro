@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     List<Receita> findByDescricao(String descricao);
+
+    List<Receita> findByData(String ano, String mes);
 }

@@ -46,6 +46,11 @@ public class ReceitaController {
         return service.buscarPorDescricao(descricao);
     }
 
+    @GetMapping("/{ano}/{mes}")
+    public List<ReceitaResponse> listarPorMesEAno(@PathVariable String ano, @PathVariable String mes) {
+        return service.buscarPorMesEAno(ano, mes);
+    }
+
     @GetMapping("/{id}")
     public ReceitaResponse buscarReceita(@PathVariable Long id) {
         return service.buscar(id);

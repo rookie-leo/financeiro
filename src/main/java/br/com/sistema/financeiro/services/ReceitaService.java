@@ -51,6 +51,12 @@ public class ReceitaService {
         return responseList;
     }
 
+    public ReceitaResponse buscar(Long id) {
+        return new ReceitaResponse(repository.findById(id).orElseThrow(() ->
+                new RuntimeException("Id não encontrado!")
+        ));
+    }
+
     public List<ReceitaResponse> buscarPorDescricao(String descricao) {
         List<ReceitaResponse> responseList = new ArrayList<>();
 
@@ -62,11 +68,17 @@ public class ReceitaService {
         return responseList;
     }
 
-    public ReceitaResponse buscar(Long id) {
-        return new ReceitaResponse(repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Id não encontrado!")
-        ));
+    public List<ReceitaResponse> buscarPorMesEAno(String ano, String mes) {
+        List<ReceitaResponse> responseList = new ArrayList<>();
+
+        repository.findByData(ano, mes)
+                .forEach(receita -> {
+                    responseList.add(new ReceitaResponse(receita));
+                });
+
+        return responseList;
     }
+
 
     public ReceitaResponse atualizar(Long id, ReceitaRequest request) {
         verificaDuplicidade(request);
@@ -90,4 +102,5 @@ public class ReceitaService {
             throw new RuntimeException("Id informado não encontrado!");
         }
     }
+
 }
