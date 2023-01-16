@@ -39,7 +39,7 @@ public class ReceitaController {
 
     @GetMapping()
     public List<ReceitaResponse> listar(@RequestParam(value="descricao", required = false)String descricao) {
-        if (descricao == null) {
+        if (descricao == null || descricao.isBlank()) {
             return service.listar();
         }
 

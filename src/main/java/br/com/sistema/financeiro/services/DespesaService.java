@@ -61,6 +61,17 @@ public class DespesaService {
         ));
     }
 
+    public List<DespesaResponse> buscarPorDescricao(String descricao) {
+        List<DespesaResponse> responseList = new ArrayList<>();
+
+        repository.findByDescricao(descricao)
+                .forEach(despesa -> {
+                    responseList.add(new DespesaResponse(despesa));
+                });
+
+        return responseList;
+    }
+
     public DespesaResponse atualizar(Long id, DespesaRequest request) {
         verificaDuplicidade(request);
         Despesa despesa = repository.findById(id).orElseThrow(() ->
