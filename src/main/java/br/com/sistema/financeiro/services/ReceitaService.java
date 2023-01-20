@@ -31,7 +31,7 @@ public class ReceitaService {
         var isEncontrado = repository.findAll()
                 .stream()
                 .anyMatch(receita ->
-                        receita.getData().getMonth().equals(LocalDateTime.now().getMonth()) &&
+                        receita.getDataEntrada().getMonth().equals(LocalDateTime.now().getMonth()) &&
                                 receita.getDescricao().equals(request.getDescricao())
                 );
 
@@ -70,8 +70,8 @@ public class ReceitaService {
 
     public List<ReceitaResponse> buscarPorMesEAno(String ano, String mes) {
         List<ReceitaResponse> responseList = new ArrayList<>();
-
-        repository.findByData(ano, mes)
+        String dataFmt = String.format("%s-%s", ano, mes);
+        repository.findReceitaDataEntrada(dataFmt)
                 .forEach(receita -> {
                     responseList.add(new ReceitaResponse(receita));
                 });
@@ -88,7 +88,7 @@ public class ReceitaService {
 
         receita.setValor(request.getValor());
         receita.setDescricao(request.getDescricao());
-        receita.setData(LocalDateTime.now());
+        receita.setDataEntrada(LocalDateTime.now());
 
         repository.save(receita);
 

@@ -21,7 +21,7 @@ public class Receita {
     private BigDecimal valor;
 
     @Column(nullable = false, name = "data_entrada")
-    private LocalDateTime data = LocalDateTime.now();
+    private LocalDateTime dataEntrada = LocalDateTime.now();
 
     @Deprecated
     public Receita() {}
@@ -51,12 +51,12 @@ public class Receita {
         this.valor = valor;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDataEntrada(LocalDateTime dataEntrada) {
+        this.dataEntrada = dataEntrada;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getDataEntrada() {
+        return dataEntrada;
     }
 
     @Override
@@ -64,12 +64,12 @@ public class Receita {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Receita receita = (Receita) o;
-        return descricao.equals(receita.descricao) && data.equals(receita.data);
+        return descricao.equals(receita.descricao) && dataEntrada.equals(receita.dataEntrada);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(descricao, data);
+        return Objects.hash(descricao, dataEntrada);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Receita {
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", valor=" + valor +
-                ", data=" + data +
+                ", data=" + dataEntrada +
                 '}';
     }
 }
