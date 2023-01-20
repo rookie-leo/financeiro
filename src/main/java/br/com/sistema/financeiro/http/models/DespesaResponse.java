@@ -17,7 +17,7 @@ public class DespesaResponse {
         this.id = despesa.getId();
         this.descricao = despesa.getDescricao();
         this.valor = despesa.getValor();
-        this.data = despesa.getData().toString();
+        this.data = despesa.getDataEntrada().toString();
         this.categoria = Categoria.toCategoria(despesa.getCategoria());
     }
 

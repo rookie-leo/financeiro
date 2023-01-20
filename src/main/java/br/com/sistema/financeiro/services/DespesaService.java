@@ -35,7 +35,7 @@ public class DespesaService {
         var isEncontrado = repository.findAll()
                 .stream()
                 .anyMatch(despesa ->
-                        despesa.getData().getMonth().equals(LocalDateTime.now().getMonth()) &&
+                        despesa.getDataEntrada().getMonth().equals(LocalDateTime.now().getMonth()) &&
                                 despesa.getDescricao().equals(request.getDescricao())
                 );
 
@@ -80,7 +80,7 @@ public class DespesaService {
 
         despesa.setValor(request.getValor());
         despesa.setDescricao(request.getDescricao());
-        despesa.setData(LocalDateTime.now());
+        despesa.setDataEntrada(LocalDateTime.now());
 
         repository.save(despesa);
 
@@ -93,5 +93,16 @@ public class DespesaService {
         } catch (EmptyResultDataAccessException ex) {
             throw new RuntimeException("Id informado não encontrado!");
         }
+    }
+
+    public List<DespesaResponse> buscarPorAnoEMes(String ano, String mes) {
+        List<DespesaResponse> responseList = new ArrayList<>();
+        String dataFmt = String.format("%s-%s", ano, mes);
+
+        repository.findByDataEntrada(dataFmt)
+                .forEach(despesa ->
+                        responseList.add(new DespesaResponse(despesa))
+                        );
+        return responseList;
     }
 }

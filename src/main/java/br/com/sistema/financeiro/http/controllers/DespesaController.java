@@ -50,6 +50,11 @@ public class DespesaController {
         return service.buscar(id);
     }
 
+    @GetMapping("/{ano}/{mes}")
+    public List<DespesaResponse> buscarPorMesEAno(@PathVariable String ano, @PathVariable String mes) {
+        return service.buscarPorAnoEMes(ano, mes);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<DespesaResponse> atualizarDespesa(@PathVariable Long id,
                                                             @RequestBody @Valid DespesaRequest request) {
