@@ -15,8 +15,12 @@ import java.util.List;
 @Service
 public class ReceitaService {
 
-    @Autowired
     private ReceitaRepository repository;
+
+    @Autowired
+    public ReceitaService(ReceitaRepository repository) {
+        this.repository = repository;
+    }
 
     public ReceitaResponse cadastrar(ReceitaRequest request) {
         verificaDuplicidade(request);
