@@ -31,6 +31,16 @@ class ReceitaControllerTest {
     }
 
     @Test
+    public void shouldGet200ForBuscarReceita() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/receitas/{id}", 1))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .is(200)
+                );
+    }
+
+    @Test
     public void shouldGet200ForAValidReceita() throws Exception {
         String json = "{ \"descricao\":\"Receita teste\", \"valor\":\"100.50\" }";
 
