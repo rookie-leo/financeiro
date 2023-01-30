@@ -1,6 +1,8 @@
 package br.com.sistema.financeiro.services;
 
 import br.com.sistema.financeiro.entity.Receita;
+import br.com.sistema.financeiro.exceptions.ReceitaDuplicadaException;
+import br.com.sistema.financeiro.exceptions.ReceitaNotFoundException;
 import br.com.sistema.financeiro.http.models.ReceitaRequest;
 import br.com.sistema.financeiro.http.models.ReceitaResponse;
 import br.com.sistema.financeiro.repositories.ReceitaRepository;
@@ -40,7 +42,7 @@ public class ReceitaService {
                 );
 
         if (isEncontrado) {
-            throw new RuntimeException("Receita já cadastrada!");
+            throw new ReceitaDuplicadaException("Receita já cadastrada!");
         }
     }
 
@@ -57,7 +59,7 @@ public class ReceitaService {
 
     public ReceitaResponse buscar(Long id) {
         return new ReceitaResponse(repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Id não encontrado!")
+                new ReceitaNotFoundException("Id não encontrado!")
         ));
     }
 
@@ -69,6 +71,10 @@ public class ReceitaService {
                     responseList.add(new ReceitaResponse(receita));
                 });
 
+        if (responseList.isEmpty()) {
+            throw new ReceitaNotFoundException("Descrição informada não encontrada!");
+        }
+
         return responseList;
     }
 
@@ -79,7 +85,9 @@ public class ReceitaService {
                 .forEach(receita -> {
                     responseList.add(new ReceitaResponse(receita));
                 });
-
+        if (responseList.isEmpty()) {
+            throw new ReceitaNotFoundException("Data informada não possui receitas cadastradas!");
+        }
         return responseList;
     }
 
@@ -87,7 +95,7 @@ public class ReceitaService {
     public ReceitaResponse atualizar(Long id, ReceitaRequest request) {
         verificaDuplicidade(request);
         Receita receita = repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Id não encontrado!")
+                new ReceitaNotFoundException("Id não encontrado!")
         );
 
         receita.setValor(request.getValor());
@@ -103,7 +111,7 @@ public class ReceitaService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
-            throw new RuntimeException("Id informado não encontrado!");
+            throw new ReceitaNotFoundException("Id informado não encontrado!");
         }
     }
 
