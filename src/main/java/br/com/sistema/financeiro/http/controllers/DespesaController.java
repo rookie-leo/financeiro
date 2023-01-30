@@ -21,7 +21,7 @@ public class DespesaController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<DespesaResponse> cadastrar(@RequestBody @Valid DespesaRequest request) {
-        if(request == null) {
+        if (request == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -37,15 +37,22 @@ public class DespesaController {
     }
 
     @GetMapping()
-    public List<DespesaResponse> listar() {
-        List<DespesaResponse> responseList = service.listar();
+    public List<DespesaResponse> listar(@RequestParam(value = "descricao", required = false) String descricao) {
+        if (descricao == null || descricao.isBlank()) {
+            return service.listar();
+        }
 
-        return responseList;
+        return service.buscarPorDescricao(descricao);
     }
 
     @GetMapping("/{id}")
     public DespesaResponse buscarDespesa(@PathVariable Long id) {
         return service.buscar(id);
+    }
+
+    @GetMapping("/{ano}/{mes}")
+    public List<DespesaResponse> buscarPorMesEAno(@PathVariable String ano, @PathVariable String mes) {
+        return service.buscarPorAnoEMes(ano, mes);
     }
 
     @PutMapping("/{id}")

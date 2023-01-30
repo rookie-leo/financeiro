@@ -1,6 +1,8 @@
 package br.com.sistema.financeiro.services;
 
 import br.com.sistema.financeiro.entity.Despesa;
+import br.com.sistema.financeiro.exceptions.DespesaDuplicadaException;
+import br.com.sistema.financeiro.exceptions.DespesaNotFoundException;
 import br.com.sistema.financeiro.http.models.DespesaRequest;
 import br.com.sistema.financeiro.http.models.DespesaResponse;
 import br.com.sistema.financeiro.repositories.DespesaRepository;
@@ -35,12 +37,12 @@ public class DespesaService {
         var isEncontrado = repository.findAll()
                 .stream()
                 .anyMatch(despesa ->
-                        despesa.getData().getMonth().equals(LocalDateTime.now().getMonth()) &&
+                        despesa.getDataEntrada().getMonth().equals(LocalDateTime.now().getMonth()) &&
                                 despesa.getDescricao().equals(request.getDescricao())
                 );
 
         if (isEncontrado) {
-            throw new RuntimeException("Despesa já cadastrada!");
+            throw new DespesaDuplicadaException("Despesa já cadastrada!");
         }
     }
 
@@ -57,19 +59,34 @@ public class DespesaService {
 
     public DespesaResponse buscar(Long id) {
         return new DespesaResponse(repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Id não encontrado!")
+                new DespesaNotFoundException("Id não encontrado!")
         ));
+    }
+
+    public List<DespesaResponse> buscarPorDescricao(String descricao) {
+        List<DespesaResponse> responseList = new ArrayList<>();
+
+        repository.findByDescricao(descricao)
+                .forEach(despesa -> {
+                    responseList.add(new DespesaResponse(despesa));
+                });
+
+        if (responseList.isEmpty()) {
+            throw new DespesaNotFoundException("Descrição não encontrada!");
+        }
+
+        return responseList;
     }
 
     public DespesaResponse atualizar(Long id, DespesaRequest request) {
         verificaDuplicidade(request);
         Despesa despesa = repository.findById(id).orElseThrow(() ->
-                new RuntimeException("Id não encontrado!")
+                new DespesaNotFoundException("Id não encontrado!")
         );
 
         despesa.setValor(request.getValor());
         despesa.setDescricao(request.getDescricao());
-        despesa.setData(LocalDateTime.now());
+        despesa.setDataEntrada(LocalDateTime.now());
 
         repository.save(despesa);
 
@@ -82,5 +99,20 @@ public class DespesaService {
         } catch (EmptyResultDataAccessException ex) {
             throw new RuntimeException("Id informado não encontrado!");
         }
+    }
+
+    public List<DespesaResponse> buscarPorAnoEMes(String ano, String mes) {
+        List<DespesaResponse> responseList = new ArrayList<>();
+        String dataFmt = String.format("%s-%s", ano, mes);
+
+        repository.findByDataEntrada(dataFmt)
+                .forEach(despesa ->
+                        responseList.add(new DespesaResponse(despesa))
+                        );
+
+        if (responseList.isEmpty()) {
+            throw new DespesaNotFoundException("Nenhuma despesa encontrada na data informada!");
+        }
+        return responseList;
     }
 }

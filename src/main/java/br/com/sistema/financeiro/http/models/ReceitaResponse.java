@@ -15,7 +15,7 @@ public class ReceitaResponse {
         this.id = receita.getId();
         this.descricao = receita.getDescricao();
         this.valor = receita.getValor();
-        this.data = receita.getData().toString();
+        this.data = receita.getDataEntrada().toString();
     }
 
     public Long getId() {

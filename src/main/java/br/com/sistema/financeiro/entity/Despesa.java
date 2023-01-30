@@ -1,5 +1,6 @@
 package br.com.sistema.financeiro.entity;
 
+import br.com.sistema.financeiro.entity.enums.Categoria;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -20,14 +21,18 @@ public class Despesa {
     private BigDecimal valor;
 
     @Column(nullable = false, name = "data_entrada")
-    private LocalDateTime data = LocalDateTime.now();
+    private LocalDateTime dataEntrada = LocalDateTime.now();
+
+    @Column
+    private String categoria;
 
     @Deprecated
     public Despesa() {}
 
-    public Despesa(String descricao, BigDecimal valor) {
+    public Despesa(String descricao, BigDecimal valor, Categoria categoria) {
         this.descricao = descricao;
         this.valor = valor;
+        this.categoria = categoria.toString();
     }
 
     public Long getId() {
@@ -42,6 +47,14 @@ public class Despesa {
         return valor;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria.toString();
+    }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -50,12 +63,12 @@ public class Despesa {
         this.valor = valor;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDataEntrada(LocalDateTime dataEntrada) {
+        this.dataEntrada = dataEntrada;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getDataEntrada() {
+        return dataEntrada;
     }
 
     @Override
@@ -63,12 +76,12 @@ public class Despesa {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Despesa despesa = (Despesa) o;
-        return descricao.equals(despesa.descricao) && data.equals(despesa.data);
+        return descricao.equals(despesa.descricao) && dataEntrada.equals(despesa.dataEntrada);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(descricao, data);
+        return Objects.hash(descricao, dataEntrada);
     }
 
     @Override
@@ -77,7 +90,7 @@ public class Despesa {
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", valor=" + valor +
-                ", data=" + data +
+                ", data=" + dataEntrada +
                 '}';
     }
 }
